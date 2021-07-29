@@ -1,7 +1,7 @@
 # esp-idf-sd-bench
 sd card benchmark for esp-idf.   
 I wanted to know the writing performance of the SD card.   
-
+I modified [this](https://github.com/kunsen-an/espidf_sd_card_write_test).   
 
 # Installation for ESP32
 ```
