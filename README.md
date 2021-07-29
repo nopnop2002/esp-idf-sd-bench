@@ -52,9 +52,9 @@ I attached an external SPI card reader to the ESP32-CAM, used the same micro SD 
 
 ![ESP32-CAM-1](https://user-images.githubusercontent.com/6020549/127579321-129422ee-8210-46a8-831a-71a2b28de89a.JPG)
 
-|SoC|Freq(Mhz)|Interface|Highest|Lowest|
+|SoC|Freq(Mhz)|Interface|Highest(Kbyte/s)|Lowest(Kbyte/s)|
 |:-:|:-:|:-:|:-:|:-:|
-|ESP32|160|SDSPI|1282.6 Kbyte/s|55.8 Kbyte/s|
-|ESP32|240|SDSPI|1462.0 Kbyte/s|256.9 Kbyte/s|
-|ESP32|160|SDMMC|5136.0 Kbyte/s|121.4 Kbyte/s|
-|ESP32|240|SDMMC|5310.8 Kbyte/s|115.7 Kbyte/s|
+|ESP32|160|SDSPI|1282.6|55.8|
+|ESP32|240|SDSPI|1462.0|256.9|
+|ESP32|160|SDMMC|5136.0|121.4|
+|ESP32|240|SDMMC|5310.8|115.7|
