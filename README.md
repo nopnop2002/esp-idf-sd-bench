@@ -16,8 +16,10 @@ idf.py flash
 # Configuration
 
 ![config-main](https://user-images.githubusercontent.com/6020549/127577532-f6522d74-224c-4b29-85ab-b7fd1ad58e7a.jpg)
+
 For SDSPI   
 ![config-spi](https://user-images.githubusercontent.com/6020549/127577535-99519b3d-d662-4109-abe1-6b716265ec20.jpg)
+
 For SDMMC   
 ![config-sdmmc](https://user-images.githubusercontent.com/6020549/127577538-60e06e7a-5909-490c-854d-7fe0b8d1482e.jpg)
 
