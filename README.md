@@ -47,6 +47,10 @@ GPIO13 (MTCK) | D3          | not used in 1-line SD mode, but card's D3 pin must
 ```
 
 # Benchmark
+The ESP32-CAM is equipped with an SDMMC card reader.   
+I attached an external SPI card reader to the ESP32-CAM, used the same micro SD card, and the same development board, and measured under the same conditions.   
+
+![ESP32-CAM-1](https://user-images.githubusercontent.com/6020549/127579321-129422ee-8210-46a8-831a-71a2b28de89a.JPG)
 
 |SoC|Freq(Mhz)|Interface|Highest|Lowest|
 |:-:|:-:|:-:|:-:|:-:|
