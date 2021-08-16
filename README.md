@@ -3,6 +3,9 @@ sd card benchmark for esp-idf.
 I wanted to know the writing performance of the SD card.   
 I modified [this](https://github.com/kunsen-an/espidf_sd_card_write_test).   
 
+I used the ESP32-CAM development board.   
+ESP32-CAM development board comes with an SDMMC card reader.   
+
 # Installation for ESP32
 ```
 git clone https://github.com/nopnop2002/esp-idf-sd-bench
@@ -45,6 +48,15 @@ GPIO4         | D1          | not used in 1-line SD mode; 10k pullup in 4-line S
 GPIO12 (MTDI) | D2          | not used in 1-line SD mode; 10k pullup in 4-line SD mode (see Note about GPIO12 below!)
 GPIO13 (MTCK) | D3          | not used in 1-line SD mode, but card's D3 pin must have a 10k pullup
 ```
+
+__Note__
+Using an SDMMC card reader on a board other than the ESP32-CAM is quite difficult.   
+It uses GPIO2 and GPIO12 to connect to the SDMMC card reader, both of which need to be pulled up.   
+If GPIO2 is pulled up, some boards will be in UART Download mode.   
+If the board has GPIO0, pulling up GPIO0 will force it into Flash boot mode.   
+GPIO12 is used as a bootstrap pin to select the output voltage of the internal regulator that powers the flash chip (VDD_SDIO).   
+On boards that use an internal regulator and a 3.3V flash chip, GPIO12 must be low on reset.   
+SDMMC card readers cannot be used with such boards.   
 
 # Benchmark
 The ESP32-CAM is equipped with an SDMMC card reader.   
