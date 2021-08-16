@@ -49,7 +49,7 @@ GPIO12 (MTDI) | D2          | not used in 1-line SD mode; 10k pullup in 4-line S
 GPIO13 (MTCK) | D3          | not used in 1-line SD mode, but card's D3 pin must have a 10k pullup
 ```
 
-__Note__
+__Note__   
 Using an SDMMC card reader on a board other than the ESP32-CAM is quite difficult.   
 It uses GPIO2 and GPIO12 to connect to the SDMMC card reader, both of which need to be pulled up.   
 If GPIO2 is pulled up, some boards will be in UART Download mode.   
