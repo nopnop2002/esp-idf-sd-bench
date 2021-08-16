@@ -58,6 +58,16 @@ GPIO12 is used as a bootstrap pin to select the output voltage of the internal r
 On boards that use an internal regulator and a 3.3V flash chip, GPIO12 must be low on reset.   
 SDMMC card readers cannot be used with such boards.   
 
+
+On a board that uses an internal regulator and a 3.3V flash chip, this is displayed and it cannot be started.
+```
+rst:0x10 (RTCWDT_RTC_RESET),boot:0x3f (SPI_FAST_FLASH_BOOT)
+flash read err, 1000
+ets_main.c 371
+ets Jun  8 2016 00:22:57
+
+```
+
 # Benchmark
 The ESP32-CAM is equipped with an SDMMC card reader.   
 I attached an external SPI card reader to the ESP32-CAM, used the same micro SD card, and the same development board, and measured under the same conditions.   
