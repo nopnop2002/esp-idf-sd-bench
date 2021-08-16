@@ -50,14 +50,14 @@ GPIO13 (MTCK) | D3          | not used in 1-line SD mode, but card's D3 pin must
 ```
 
 __Note__   
-Using an SDMMC card reader on a board other than the ESP32-CAM is quite difficult.   
+Using an SDMMC card reader on boards other than the ESP32-CAM is a bit difficult.   
 It uses GPIO2 and GPIO12 to connect to the SDMMC card reader, both of which need to be pulled up.   
 If GPIO2 is pulled up, some boards will be in UART Download mode.   
 If the board has GPIO0, pulling up GPIO0 will force it into Flash boot mode.   
 GPIO12 is used as a bootstrap pin to select the output voltage of the internal regulator that powers the flash chip (VDD_SDIO).   
 On boards that use an internal regulator and a 3.3V flash chip, GPIO12 must be low on reset.   
 SDMMC card readers cannot be used with such boards.   
-
+ESP32-CAM meets the conditions for using SDMMC.   
 
 On a board that uses an internal regulator and a 3.3V flash chip, this is displayed and it cannot be started.
 ```
