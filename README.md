@@ -24,8 +24,10 @@ For SDSPI
 ![config-spi](https://user-images.githubusercontent.com/6020549/127577535-99519b3d-d662-4109-abe1-6b716265ec20.jpg)
 
 For SDMMC   
-![config-sdmmc](https://user-images.githubusercontent.com/6020549/127577538-60e06e7a-5909-490c-854d-7fe0b8d1482e.jpg)
-
+- 4-line mode
+![config-sdmmc-4](https://user-images.githubusercontent.com/6020549/129650135-ba0efa8f-c094-4977-9a00-a1cf6184ed0a.jpg)
+- 1-line mode
+![config-sdmmc-1](https://user-images.githubusercontent.com/6020549/129650160-0848fd68-356e-4308-bf4e-3fbc15703773.jpg)
 
 # Wireing for SDSPI
 ```
@@ -50,10 +52,7 @@ GPIO13 (MTCK) | D3          | not used in 1-line SD mode, but card's D3 pin must
 ```
 
 __Note__   
-Using an SDMMC card reader on boards other than the ESP32-CAM is a bit difficult.   
-It uses GPIO2 and GPIO12 to connect to the SDMMC card reader, both of which need to be pulled up.   
-If GPIO2 is pulled up, some boards will be in UART Download mode.   
-If the board has GPIO0, pulling up GPIO0 will force it into Flash boot mode.   
+Using an 4-line SDMMC mode on boards other than the ESP32-CAM is a bit difficult.   
 GPIO12 is used as a bootstrap pin to select the output voltage of the internal regulator that powers the flash chip (VDD_SDIO).   
 On boards that use an internal regulator and a 3.3V flash chip, GPIO12 must be low on reset.   
 SDMMC card readers cannot be used with such boards.   
@@ -77,5 +76,7 @@ I attached an external SPI card reader to the ESP32-CAM, used the same micro SD 
 |:-:|:-:|:-:|:-:|:-:|
 |ESP32|160|SDSPI|1282.6|55.8|
 |ESP32|240|SDSPI|1462.0|256.9|
-|ESP32|160|SDMMC|5136.0|121.4|
-|ESP32|240|SDMMC|5310.8|115.7|
+|ESP32|160|SDMMC(1-line)|2055.2|118.1|
+|ESP32|240|SDMMC(1-line)|2076.3|365.3|
+|ESP32|160|SDMMC(4-line)|5136.0|121.4|
+|ESP32|240|SDMMC(4-line)|5310.8|115.7|

@@ -157,7 +157,13 @@ void app_main(void)
 	sdmmc_slot_config_t slot_config = SDMMC_SLOT_CONFIG_DEFAULT();
 
 	// To use 1-line SD mode, change this to 1:
+#if CONFIG_MODE_WIDTH4
+	ESP_LOGI(TAG, "Using 4-line mode");
 	slot_config.width = 4;
+#else
+	ESP_LOGI(TAG, "Using 1-line mode");
+	slot_config.width = 1;
+#endif
 
 	// On chips where the GPIOs used for SD card can be configured, set them in
 	// the slot_config structure:

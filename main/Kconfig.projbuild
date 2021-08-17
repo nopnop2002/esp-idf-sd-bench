@@ -15,10 +15,27 @@ menu "Application menu"
 				SDSPI Interface.
 	endchoice
 
+	choice SD_MODE
+		depends on SDMMC
+		prompt "SD mode"
+		default MODE_WIDTH4
+		help
+			Select SD mode.
+		config MODE_WIDTH1
+			bool "SDMMC 1-line mode"
+			help
+				SDMMC 1-line mode.
+		config MODE_WIDTH4
+			bool "SDMMC 4-line mode"
+			help
+				SDMMC 4-line mode.
+	endchoice
+
 	config EXAMPLE_FORMAT_IF_MOUNT_FAILED
 		bool "Format the card if mount failed"
 		default n
 		help
 			If this config item is set, format_if_mount_failed will be set to true and the card will be formatted if
 			the mount has failed.
+
 endmenu
