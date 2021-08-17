@@ -53,8 +53,8 @@ GPIO13 (MTCK) | D3          | not used in 1-line SD mode, but card's D3 pin must
 
 ### Note about GPIO2 (ESP32 only)
 GPIO2 pin is used as a bootstrapping pin, and should be low to enter UART download mode.   
-One way to do this is to turn off the SDMMC card reader when in UART download mode.   
-Another way to do this is to connect GPIO0 and GPIO2 using a jumper, and then the auto-reset circuit on most development boards will pull GPIO2 low along with GPIO0, when entering download mode.
+One way to solve this is to turn off the power to the SDMMC card reader when in UART download mode.   
+Another way to solve this is to connect GPIO0 and GPIO2 using a jumper, and then the auto-reset circuit on most development boards will pull GPIO2 low along with GPIO0, when entering download mode.
 
 ### Note about GPIO12 (ESP32 only)
 Using the 4-line SD mode on the ESP32 is a bit tricky.   
