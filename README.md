@@ -57,17 +57,17 @@ One way to do this is to turn off the SDMMC card reader when in UART download mo
 Another way to do this is to connect GPIO0 and GPIO2 using a jumper, and then the auto-reset circuit on most development boards will pull GPIO2 low along with GPIO0, when entering download mode.
 
 ### Note about GPIO12 (ESP32 only)
-Using the 4-line SDMMC mode on the ESP32 is a bit tricky.   
+Using the 4-line SD mode on the ESP32 is a bit tricky.   
 GPIO12 is used as a bootstrap pin to select the output voltage of the internal regulator(VDD_SDIO).   
 If GPIO12 is pulled up at reset, 1.8V will be output to VDD_SDIO.   
 If GPIO12 is pulled down at reset, 3.3V will be output to VDD_SDIO.   
 On boards that use an internal regulator(VDD_SDIO) and a 3.3V flash chip, GPIO12 must be low on reset.   
-4-line SDMMC mode cannot be used with such boards.   
-In 1-line SDMMC mode, GPIO12 is not used, so you can use the SDMMC card reader without any problems.
+4-line SD mode cannot be used with such boards.   
+In 1-line SD mode, GPIO12 is not used, so you can use the SDMMC card reader without any problems.
 
 # Benchmark   
 ESP32-CAM is equipped with an SDMMC card reader.   
-ESP32-CAM meets the conditions for using SDMMC.   
+With the ESP32-CAM, you can use 4-line SD mode without any problems.   
 I attached an external SPI card reader to the ESP32-CAM, used the same micro SD card, and the same development board, and measured under the same conditions.   
 
 ![ESP32-CAM-1](https://user-images.githubusercontent.com/6020549/127579321-129422ee-8210-46a8-831a-71a2b28de89a.JPG)
