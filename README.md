@@ -57,7 +57,7 @@ One way to do this is to turn off the SDMMC card reader when in UART download mo
 Another way to do this is to connect GPIO0 and GPIO2 using a jumper, and then the auto-reset circuit on most development boards will pull GPIO2 low along with GPIO0, when entering download mode.
 
 ### Note about GPIO12 (ESP32 only)
-Using the 4-line SDMMC mode on the ESP32 is a bit tricky.
+Using the 4-line SDMMC mode on the ESP32 is a bit tricky.   
 GPIO12 is used as a bootstrap pin to select the output voltage of the internal regulator(VDD_SDIO).   
 If GPIO12 is pulled up at reset, 1.8V will be output to VDD_SDIO.   
 If GPIO12 is pulled down at reset, 3.3V will be output to VDD_SDIO.   
