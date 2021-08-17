@@ -65,6 +65,18 @@ On boards that use an internal regulator(VDD_SDIO) and a 3.3V flash chip, GPIO12
 4-line SD mode cannot be used with such boards.   
 In 1-line SD mode, GPIO12 is not used, so you can use the SDMMC card reader without any problems.
 
+Another option is to burn the flash voltage selection efuses.
+This will permanently select 3.3V output voltage for the internal regulator, and GPIO12 will not be used as a bootstrapping pin.
+Then it is safe to connect a pullup resistor to GPIO12.
+This option is suggested for production use.   
+The following command can be used to program flash voltage selection efuses **to 3.3V**:
+```sh
+    components/esptool_py/esptool/espefuse.py set_flash_voltage 3.3V
+```
+
+This command will burn the `XPD_SDIO_TIEH`, `XPD_SDIO_FORCE`, and `XPD_SDIO_REG` efuses. With all three burned to value 1, the internal VDD_SDIO flash voltage regulator is permanently enabled at 3.3V.
+See the technical reference manual for more details.
+
 # Benchmark   
 ESP32-CAM is equipped with an SDMMC card reader.   
 With the ESP32-CAM, you can use 4-line SD mode without any problems.   
