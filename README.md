@@ -51,19 +51,19 @@ GPIO12 (MTDI) | D2          | not used in 1-line SD mode; 10k pullup in 4-line S
 GPIO13 (MTCK) | D3          | not used in 1-line SD mode, but card's D3 pin must have a 10k pullup
 ```
 
-__Note__   
-Using an 4-line SDMMC mode on boards other than the ESP32-CAM is a bit difficult.   
-GPIO12 is used as a bootstrap pin to select the output voltage of the internal regulator that powers the flash chip (VDD_SDIO).   
-On boards that use an internal regulator and a 3.3V flash chip, GPIO12 must be low on reset.   
-SDMMC card readers cannot be used with such boards.   
+### Note about GPIO2 (ESP32 only)
+GPIO2 pin is used as a bootstrapping pin, and should be low to enter UART download mode.   
+One way to do this is to turn off the SDMMC card reader when in UART download mode.   
+Another way to do this is to connect GPIO0 and GPIO2 using a jumper, and then the auto-reset circuit on most development boards will pull GPIO2 low along with GPIO0, when entering download mode.
 
-On a board that uses an internal regulator and a 3.3V flash chip, this is displayed and it cannot be started.
-```
-rst:0x10 (RTCWDT_RTC_RESET),boot:0x3f (SPI_FAST_FLASH_BOOT)
-flash read err, 1000
-ets_main.c 371
-ets Jun  8 2016 00:22:57
-```
+### Note about GPIO12 (ESP32 only)
+Using an 4-line SDMMC mode on boards other than the ESP32-CAM is a bit difficult.   
+GPIO12 is used as a bootstrap pin to select the output voltage of the internal regulator(VDD_SDIO).   
+If GPIO12 is pulled up at reset, 1.8V will be output to VDD_SDIO.   
+If GPIO12 is pulled down at reset, 3.3V will be output to VDD_SDIO.   
+On boards that use an internal regulator(VDD_SDIO) and a 3.3V flash chip, GPIO12 must be low on reset.   
+4-line SDMMC mode cannot be used with such boards.   
+In 1-line SDMMC mode, GPIO12 is not used, so you can use the SDMMC card reader without any problems.
 
 # Benchmark   
 ESP32-CAM is equipped with an SDMMC card reader.   
