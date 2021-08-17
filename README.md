@@ -24,9 +24,9 @@ For SDSPI
 ![config-spi](https://user-images.githubusercontent.com/6020549/127577535-99519b3d-d662-4109-abe1-6b716265ec20.jpg)
 
 For SDMMC   
-- 4-line mode
+- 4-line mode   
 ![config-sdmmc-4](https://user-images.githubusercontent.com/6020549/129650135-ba0efa8f-c094-4977-9a00-a1cf6184ed0a.jpg)
-- 1-line mode
+- 1-line mode   
 ![config-sdmmc-1](https://user-images.githubusercontent.com/6020549/129650160-0848fd68-356e-4308-bf4e-3fbc15703773.jpg)
 
 # Wireing for SDSPI
