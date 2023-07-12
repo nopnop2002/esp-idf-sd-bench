@@ -6,7 +6,7 @@ I modified [this](https://github.com/kunsen-an/espidf_sd_card_write_test).
 I used the ESP32-CAM development board.   
 ESP32-CAM development board comes with an SDMMC card reader.   
 I attached an SDSPI card reader to this board.   
-And I used the same SD card.   
+And I used the same micro SD card.   
 
 # Installation for ESP32
 ```
