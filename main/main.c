@@ -32,50 +32,27 @@ static const char *TAG = "example";
 
 #include "esp_timer.h"
 
-
-// This example can use SDMMC and SPI peripherals to communicate with SD card.
-// By default, SDMMC peripheral is used.
-// To enable SPI mode, uncomment the following line:
-
-
 // When testing SD and SPI modes, keep in mind that once the card has been
 // initialized in SPI mode, it can not be reinitialized in SD mode without
 // toggling power to the card.
 
 #if CONFIG_SDSPI
 // Pin mapping when using SPI mode.
-#if CONFIG_IDF_TARGET_ESP32 || CONFIG_IDF_TARGET_ESP32S2
-
-//#define PIN_NUM_MISO 2
 #define PIN_NUM_MISO 16
 #define PIN_NUM_MOSI 15
-#define PIN_NUM_CLK  14
-#define PIN_NUM_CS	 13
+#define PIN_NUM_CLK 14
+#define PIN_NUM_CS 13
 
-#elif CONFIG_IDF_TARGET_ESP32C3
-#define PIN_NUM_MISO 18
-#define PIN_NUM_MOSI 9
-#define PIN_NUM_CLK  8
-#define PIN_NUM_CS	 19
-
-#endif //CONFIG_IDF_TARGET_ESP32 || CONFIG_IDF_TARGET_ESP32S2
-
-
-#if CONFIG_IDF_TARGET_ESP32S2 ||CONFIG_IDF_TARGET_ESP32C3
 #define SPI_DMA_CHAN	host.slot
-#else
-#define SPI_DMA_CHAN	1
-#endif
-
 #endif //CONFIG_SDSPI
 
-#define TIME_ARRAY_SIZE		 10000
-#define WRITE_BUFFER_SIZE	(16*1024)
-#define PRINT_DIFF			0
+#define TIME_ARRAY_SIZE 10000
+#define WRITE_BUFFER_SIZE (16*1024)
+#define PRINT_DIFF 0
 
 uint64_t time_array[TIME_ARRAY_SIZE];
 
-char	write_buffer[WRITE_BUFFER_SIZE];
+char write_buffer[WRITE_BUFFER_SIZE];
 
 void sdBenchi(size_t writeSize) {
 	// Check if destination file exists before writing
@@ -150,37 +127,43 @@ void app_main(void)
 	// production applications.
 
 	ESP_LOGI(TAG, "Using SDMMC peripheral");
+
+	// By default, SD card frequency is initialized to SDMMC_FREQ_DEFAULT (20MHz)
+	// For setting a specific frequency, use host.max_freq_khz (range 400kHz - 40MHz for SDMMC)
+	// Example: for fixed frequency of 10MHz, use host.max_freq_khz = 10000;
 	sdmmc_host_t host = SDMMC_HOST_DEFAULT();
 
 	// This initializes the slot without card detect (CD) and write protect (WP) signals.
 	// Modify slot_config.gpio_cd and slot_config.gpio_wp if your board has these signals.
 	sdmmc_slot_config_t slot_config = SDMMC_SLOT_CONFIG_DEFAULT();
 
-	// To use 1-line SD mode, change this to 1:
-#if CONFIG_MODE_WIDTH4
-	ESP_LOGI(TAG, "Using 4-line mode");
+#ifdef CONFIG_EXAMPLE_SDMMC_BUS_WIDTH_4
+	ESP_LOGI(TAG, "SDMMC 4 line mode");
 	slot_config.width = 4;
 #else
-	ESP_LOGI(TAG, "Using 1-line mode");
+	ESP_LOGI(TAG, "SDMMC 1 line mode");
 	slot_config.width = 1;
 #endif
 
 	// On chips where the GPIOs used for SD card can be configured, set them in
 	// the slot_config structure:
-#ifdef SOC_SDMMC_USE_GPIO_MATRIX
-	slot_config.clk = GPIO_NUM_14;
-	slot_config.cmd = GPIO_NUM_15;
-	slot_config.d0 = GPIO_NUM_2;
-	slot_config.d1 = GPIO_NUM_4;
-	slot_config.d2 = GPIO_NUM_12;
-	slot_config.d3 = GPIO_NUM_13;
-#endif
+#ifdef CONFIG_SOC_SDMMC_USE_GPIO_MATRIX
+	slot_config.clk = CONFIG_EXAMPLE_PIN_CLK;
+	slot_config.cmd = CONFIG_EXAMPLE_PIN_CMD;
+	slot_config.d0 = CONFIG_EXAMPLE_PIN_D0;
+#ifdef CONFIG_EXAMPLE_SDMMC_BUS_WIDTH_4
+	slot_config.d1 = CONFIG_EXAMPLE_PIN_D1;
+	slot_config.d2 = CONFIG_EXAMPLE_PIN_D2;
+	slot_config.d3 = CONFIG_EXAMPLE_PIN_D3;
+#endif	// CONFIG_EXAMPLE_SDMMC_BUS_WIDTH_4
+#endif	// CONFIG_SOC_SDMMC_USE_GPIO_MATRIX
 
 	// Enable internal pullups on enabled pins. The internal pullups
 	// are insufficient however, please make sure 10k external pullups are
 	// connected on the bus. This is for debug / example purpose only.
 	slot_config.flags |= SDMMC_SLOT_FLAG_INTERNAL_PULLUP;
 
+	ESP_LOGI(TAG, "Mounting filesystem");
 	ret = esp_vfs_fat_sdmmc_mount(mount_point, &host, &slot_config, &mount_config, &card);
 
 	if (ret != ESP_OK) {
@@ -257,18 +240,19 @@ void app_main(void)
 		ESP_LOGE(TAG, "Failed to open file for writing");
 		return;
 	}
+	ESP_LOGI(TAG, "Opened");
 
 
 	// initialize write buffer
 	for ( int i = 0 ; i < WRITE_BUFFER_SIZE ; i++ ) {
 		write_buffer[i] = ' ' + (i % 64);
 	}
-
 	
 	uint64_t start = esp_timer_get_time();
 	for ( int counter = 0 ; counter < TIME_ARRAY_SIZE ; counter++) {
 		fwrite(write_buffer, 1, WRITE_BUFFER_SIZE, f);
 		time_array[counter] = esp_timer_get_time();
+		ESP_LOGI(TAG, "counter=%d", counter);
 	}
 	fclose(f);
 	ESP_LOGI(TAG, "File written");
@@ -295,46 +279,14 @@ void app_main(void)
 	printf("average write speed = %llu byte/s\n", ((uint64_t)WRITE_BUFFER_SIZE)*1000*1000/average);
 	printf("lowest write speed = %llu byte/s\n", ((uint64_t)WRITE_BUFFER_SIZE)*1000*1000/maximum);
 
-
+#if 0
 	sdBenchi(1024*1);
 	sdBenchi(1024*2);
 	sdBenchi(1024*4);
 	sdBenchi(1024*8);
-
-#if 0
-	// Check if destination file exists before renaming
-	struct stat st;
-	if (stat("/sdcard/foo.txt", &st) == 0) {
-		// Delete it if it exists
-		unlink("/sdcard/foo.txt");
-	}
-
-	// Rename original file
-	ESP_LOGI(TAG, "Renaming file");
-	if (rename("/sdcard/hello.txt", "/sdcard/foo.txt") != 0) {
-		ESP_LOGE(TAG, "Rename failed");
-		return;
-	}
-
-	// Open renamed file for reading
-	ESP_LOGI(TAG, "Reading file");
-	f = fopen("/sdcard/foo.txt", "r");
-	if (f == NULL) {
-		ESP_LOGE(TAG, "Failed to open file for reading");
-		return;
-	}
-	char line[64];
-	fgets(line, sizeof(line), f);
-	fclose(f);
-	// strip newline
-	char* pos = strchr(line, '\n');
-	if (pos) {
-		*pos = '\0';
-	}
-	ESP_LOGI(TAG, "Read from file: '%s'", line);
 #endif
 
 	// All done, unmount partition and disable SDMMC or SPI peripheral
-	esp_vfs_fat_sdmmc_unmount();
+	esp_vfs_fat_sdcard_unmount(mount_point, card);
 	ESP_LOGI(TAG, "Card unmounted");
 }
