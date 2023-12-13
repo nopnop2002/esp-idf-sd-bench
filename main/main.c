@@ -1,17 +1,11 @@
 /*
-This file is based on main/sd_card_example_main.c in the following directory:
-https://github.com/espressif/esp-idf/tree/master/examples/storage/sd_card
-The file 'sd_card_example_main.c' is modified to adapt to 
-MH-ET Live ESP32 minikit (http://forum.mhetlive.com/topic/8/mh-et-live-minikit-for-esp32)
-and WeMos Micro SD Card Shield	(https://wiki.wemos.cc/products:d1_mini_shields:micro_sd_card_shield).
-*/
+	This project is based on:
+	https://github.com/espressif/esp-idf/tree/master/examples/storage/sd_card
 
-/* SD card and FAT filesystem example.
-   This example code is in the Public Domain (or CC0 licensed, at your option.)
-
-   Unless required by applicable law or agreed to in writing, this
-   software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-   CONDITIONS OF ANY KIND, either express or implied.
+	This example code is in the Public Domain (or CC0 licensed, at your option.)
+	Unless required by applicable law or agreed to in writing, this
+	software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+	CONDITIONS OF ANY KIND, either express or implied.
 */
 
 #include <stdio.h>
@@ -26,7 +20,7 @@ and WeMos Micro SD Card Shield	(https://wiki.wemos.cc/products:d1_mini_shields:m
 #include "driver/sdspi_host.h"
 #include "sdmmc_cmd.h"
 
-static const char *TAG = "example";
+static const char *TAG = "MAIN";
 
 #define MOUNT_POINT "/sdcard"
 
@@ -42,8 +36,7 @@ static const char *TAG = "example";
 #define PIN_NUM_MOSI 15
 #define PIN_NUM_CLK 14
 #define PIN_NUM_CS 13
-
-#define SPI_DMA_CHAN	host.slot
+#define SPI_DMA_CHAN host.slot
 #endif //CONFIG_SDSPI
 
 #define TIME_ARRAY_SIZE 10000
